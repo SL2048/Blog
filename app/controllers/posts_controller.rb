@@ -6,7 +6,7 @@ class PostsController < ApplicationController
     @posts = current_user.posts.paginate(pagination_params).order(updated_at: :desc)
 
     render json: {
-      posts: @posts,
+      posts: serialized_object(@posts, {each_serializer: PostSerializer}),
       meta: pagination_data(@posts)
     }
   end

@@ -13,4 +13,10 @@ class ApplicationController < ActionController::API
     }
   end
 
+  def serialized_object(object,options={})
+    options[:scope] = current_user
+    options[:scope_name] = :current_user
+    ActiveModel::SerializableResource.new(object, options).serializable_hash
+  end
+
 end
