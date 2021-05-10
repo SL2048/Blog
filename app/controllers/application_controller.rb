@@ -19,4 +19,13 @@ class ApplicationController < ActionController::API
     ActiveModel::SerializableResource.new(object, options).serializable_hash
   end
 
+  def pagination_params
+    page = params[:page] || 1
+    per_page = params[:per_page] || 10
+    {
+      page: page,
+      per_page: per_page
+    }
+  end
+
 end

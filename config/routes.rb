@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :posts do
+    resources :comments, except: [:show]
+  end
   devise_for :users,
                path: '',
                path_names: {
