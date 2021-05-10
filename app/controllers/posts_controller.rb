@@ -3,9 +3,12 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = current_user.posts
+    @posts = current_user.posts.paginate(pagination_params).order(updated_at: :desc)
 
-    render json: @posts
+    render json: {
+      posts: @posts,
+      meta: pagination_data(@posts)
+    }
   end
 
   # GET /posts/1
@@ -37,6 +40,17 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
+  end
+
+  protected
+
+  def pagination_params
+    page = params[:page] || 1
+    per_page = params[:per_page] || 10
+    {
+      page: page,
+      per_page: per_page
+    }
   end
 
   private
