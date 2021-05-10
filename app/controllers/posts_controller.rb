@@ -42,17 +42,6 @@ class PostsController < ApplicationController
     @post.destroy
   end
 
-  protected
-
-  def pagination_params
-    page = params[:page] || 1
-    per_page = params[:per_page] || 10
-    {
-      page: page,
-      per_page: per_page
-    }
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
