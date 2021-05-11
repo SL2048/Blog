@@ -1,4 +1,11 @@
 class ReactionSerializer < ActiveModel::Serializer
-  attributes :id, :reaction_type
-  has_one :user
+  attributes :id, :reaction_type, :user
+  
+  def user
+    {
+      id: object.user.id,
+      username: object.user.username,
+      name: object.user.name
+    }
+  end
 end

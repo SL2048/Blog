@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 
   # GET /comments
   def index
-    @comments = @post.comments.paginate(pagination_params).order(created_at: :desc)
+    @comments = @post.comments.includes(:user, reactions: :user).paginate(pagination_params).order(created_at: :desc)
 
     render json: {
       comments: serialized_object(@comments, {each_serializer: CommentSerializer}),
