@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_post
+  before_action :set_post, except: [:update, :destroy]
   before_action :set_comment, only: [:update, :destroy]
 
   # GET /comments
@@ -25,7 +25,9 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1
   def update
-    if @comment.update(comment_params)
+    if @comment.nil?
+      render json: {error: "comment not found"}, status: :not_found
+    elsif @comment.update(comment_params)
       render json: @comment
     else
       render json: @comment.errors, status: :unprocessable_entity
@@ -34,7 +36,11 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1
   def destroy
-    @comment.destroy
+    if @comment.nil?
+      render json: {error: "comment not found"}, status: :not_found
+    else
+      @comment.destroy
+    end
   end
 
   private
@@ -44,7 +50,8 @@ class CommentsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
-      @comment = current_user.comments.find(params[:id])
+      post = Post.find(params[:post_id])
+      @comment = current_user.comments.where(id: params[:id], post: post).first
     end
 
     # Only allow a trusted parameter "white list" through.

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :posts do
-    resources :comments, except: [:show]
+    resources :comments, except: [:show] do
+      resources :reactions, only: [:create, :destroy]
+    end
   end
   devise_for :users,
                path: '',
