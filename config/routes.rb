@@ -12,7 +12,8 @@ Rails.application.routes.draw do
                  registration: 'signup'
                },
                controllers: {
-                 sessions: 'auth/sessions'
+                 sessions: 'auth/sessions',
+                 registrations: 'auth/registrations'
                }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
